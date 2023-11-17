@@ -37,7 +37,7 @@ OPENAI_MODEL_MAPPING = {
 
 # Page setup
 st.set_page_config(page_title="Synth-Assist", layout="wide")
-st.header("Synth-Assist")
+st.header("eSynth")
 
 # Enable caching for expensive functions
 bootstrap_caching()
@@ -51,7 +51,7 @@ openai_api_key = st.text_input(
 # Place the query type selector outside the form
 query_type = st.selectbox(
     "What synthesis do you need?",
-    options=["Find main themes and insights", "Find key opportunities and recommendations", "Ask another question"],
+    options=["Ask a question", "Find main themes and insights", "Find key opportunities and recommendations"],
     key='selected_query_type'
 )
 
@@ -143,7 +143,7 @@ with st.form(key="qa_form1"):
         query = "provide a detailed analysis of the key insights, patterns, and themes present in the transcript. Identify the associated pain points or unmet needs. Also, identify the associated gain points or met needs. Include specific examples or quotes to support your analysis, and highlight any supporting facts, evidence, or statistics if available. Please ensure the response is in a paragraph, is clear, direct, concise, and well-structured for easy readability, maintaining a formal and analytical tone."
     elif query_type == "Find key opportunities and recommendations":
         query = "list potential opportunities or recommendations that could address issues present in the transcript. Provide a rationale for each opportunity or recommendation, explaining why it is valuable and how it addresses the specific issue. Ensure that your suggestions are practical, feasible, and well-suited to the context of the interview. Please ensure the response is in a paragraph, is clear, direct, concise, and well-structured for easy readability, maintaining a formal, solution-oriented, and persuasive tone throughout your analysis."
-    elif query_type == "Ask another question":
+    elif query_type == "Ask a question":
         query = st.text_area("Ask a question about the transcript/s")
 
     submit = st.form_submit_button("Start Synthesis", on_click=handle_form_submission)
@@ -157,7 +157,7 @@ selected_document = "All documents"
 
 if submit:
     # st.session_state.query_type = query_type  # This line should be removed
-    if query_type == "Ask another question" and not is_query_valid(query):
+    if query_type == "Ask a question" and not is_query_valid(query):
         st.error("Please enter a valid question.")
         st.stop()
 
