@@ -50,7 +50,7 @@ openai_api_key = st.text_input(
 # Place the query type selector outside the form
 query_type = st.selectbox(
     "What synthesis do you need?",
-    options=["Ask a question", "Find main themes and insights", "Find key opportunities and recommendations"],
+    options=["Please select", "Ask a question", "Find main themes and insights", "Find key opportunities and recommendations"],
     key='selected_query_type'
 )
 
