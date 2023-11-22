@@ -47,6 +47,12 @@ openai_api_key = st.text_input(
     type='password'  # this line masks the API key input
 )
 
+# Create tabs
+tab1, tab2 = st.tabs(["Synth Research Docs", "Synth Live Recordings"])
+
+# Tab for "Synth Research Docs"
+with tab1:
+
 # Place the query type selector outside the form
 query_type = st.selectbox(
     "What synthesis do you need?",
@@ -282,4 +288,7 @@ if st.session_state.get('responses_and_sources'):
             st.markdown(summary)
             st.session_state['previous_responses'].append({'answer': summary, 'sources': []})
 
-
+# Tab for "Synth Live Recordings"
+with tab2:
+    # Display "Coming soon..." in large text
+    st.markdown("<h1 style='text-align: center; color: black;'>Coming soon...</h1>", unsafe_allow_html=True)
