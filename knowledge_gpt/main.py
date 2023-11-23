@@ -59,12 +59,28 @@ with tab1:
         key='selected_query_type'
     )
 
-    uploaded_files = st.file_uploader(
-        "Upload pdf, docx, or txt files",
-        type=["pdf", "docx", "txt"],
-        accept_multiple_files=True,
-        help="Scanned documents are not supported yet!",
-    )
+    uploaded_files = None  # Define uploaded_files outside the form
+
+    if query_type in ["Ask a question", "Find main themes and insights", "Find key opportunities and recommendations"]:
+        with st.form(key="qa_form1"):
+            uploaded_files = st.file_uploader(
+                "Upload pdf, docx, or txt files",
+                type=["pdf", "docx", "txt"],
+                accept_multiple_files=True,
+                help="Scanned documents are not supported yet!"
+            )
+
+            query = ""
+            if query_type == "Find main themes and insights":
+                query = "provide a detailed analysis of the key insights, patterns, and themes present in the transcript. Identify the associated pain points or unmet needs. Also, identify the associated gain points or met needs. Include specific examples or quotes to support your analysis, and highlight any supporting facts, evidence, or statistics if available. Please ensure the response is in a paragraph, is clear, direct, concise, and well-structured for easy readability, maintaining a formal and analytical tone."
+            elif query_type == "Find key opportunities and recommendations":
+                query = "list potential opportunities or recommendations that could address issues present in the transcript. Provide a rationale for each opportunity or recommendation, explaining why it is valuable and how it addresses the specific issue. Ensure that your suggestions are practical, feasible, and well-suited to the context of the interview. Please ensure the response is in a paragraph, is clear, direct, concise, and well-structured for easy readability, maintaining a formal, solution-oriented, and persuasive tone throughout your analysis."
+            elif query_type == "Ask a question":
+                query = st.text_area("Ask a question about the transcript/s")
+
+            submit = st.form_submit_button("Start Synthesis")
+
+
 
     if 'uploaded_document_count' not in st.session_state:
         st.session_state['uploaded_document_count'] = 0
@@ -141,16 +157,6 @@ with tab1:
     def handle_form_submission():
         st.session_state.query_type = st.session_state.selected_query_type
 
-    with st.form(key="qa_form1"):
-        query = ""
-        if query_type == "Find main themes and insights":
-            query = "provide a detailed analysis of the key insights, patterns, and themes present in the transcript. Identify the associated pain points or unmet needs. Also, identify the associated gain points or met needs. Include specific examples or quotes to support your analysis, and highlight any supporting facts, evidence, or statistics if available. Please ensure the response is in a paragraph, is clear, direct, concise, and well-structured for easy readability, maintaining a formal and analytical tone."
-        elif query_type == "Find key opportunities and recommendations":
-            query = "list potential opportunities or recommendations that could address issues present in the transcript. Provide a rationale for each opportunity or recommendation, explaining why it is valuable and how it addresses the specific issue. Ensure that your suggestions are practical, feasible, and well-suited to the context of the interview. Please ensure the response is in a paragraph, is clear, direct, concise, and well-structured for easy readability, maintaining a formal, solution-oriented, and persuasive tone throughout your analysis."
-        elif query_type == "Ask a question":
-            query = st.text_area("Ask a question about the transcript/s")
-
-        submit = st.form_submit_button("Start Synthesis", on_click=handle_form_submission)
 
     # Create a list of document options, adding an "All documents" option at the start
     document_options = ["All documents"] + [f"Document {i}" for i, _ in enumerate(uploaded_files, start=1)]
